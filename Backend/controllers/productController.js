@@ -1,4 +1,5 @@
 import { Product } from "../models/product.js"
+import { ErrorHandler } from "../utils/errorHandler.js"
 
 // create new product 
 export const newProduct = async (req, res, next) => {
@@ -22,27 +23,21 @@ export const getProducts = async (req, res, next) => {
 // get single product details  api/products/:id
 
 export const getSingleProduct = async (req, res, next) => {
-
     try {
-        const product = await Product.findById(req.params.id)
+        const product = await Product.findById(req.params.id);
 
         if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: "Product not found"
-            })
+            return next(new ErrorHandler("Product not found", 404));
         }
+
         res.status(200).json({
             success: true,
-            product
-        })
-    } catch (err) {
-        return res.status(404).json({
-            success: false,
-            message: "Invalid product id"
-        })
+            product,
+        });
+    } catch (error) {
+        return next(new ErrorHandler("Invalid Product ID", 400));
     }
-}
+};
 
 // update product api/products/:id
 
