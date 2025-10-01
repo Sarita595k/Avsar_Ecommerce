@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// product model 
+// product schema 
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -73,5 +73,5 @@ const productSchema = new mongoose.Schema({
     }
 })
 
-
+// product model
 export const Product = mongoose.model('Product', productSchema)
