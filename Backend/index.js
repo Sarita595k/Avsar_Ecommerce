@@ -20,6 +20,8 @@ app.use("/api/", router)
 
 // middleware to use handle errors 
 app.use(handleError)
+
+// listening to port
 app.listen(process.env.PORT, () => {
     // connecting to db
     connectToDb()
