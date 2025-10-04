@@ -8,3 +8,4 @@ export class ErrorHandler extends Error {
         Error.captureStackTrace(this, this.constructor)
     }
 }
+// end of code
