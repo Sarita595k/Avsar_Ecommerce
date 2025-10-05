@@ -27,3 +27,5 @@ app.listen(process.env.PORT, () => {
     connectToDb()
     console.log(`Server is running on port ${process.env.PORT} in ${process.env.NODE_ENV} mode`)
 })
+
+// end of code
