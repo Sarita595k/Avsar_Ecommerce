@@ -12,3 +12,4 @@ const connectToDb = async () => {
 }
 
 export default connectToDb;
+// end of code 
