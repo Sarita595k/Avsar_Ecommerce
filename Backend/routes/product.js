@@ -17,3 +17,5 @@ router.put('/admin/products/:id', updateProduct)
 // router for deleting product
 router.delete('/admin/products/:id', deleteProduct)
 export default router
+
+// end of code
