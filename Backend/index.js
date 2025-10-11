@@ -10,7 +10,7 @@ import { handleError } from "./middlewares/errors.js"
 // import db 
 import connectToDb from "./config/database.js"
 
-
+// for json parsing 
 app.use(express.json())
 //import all routes 
 import router from "./routes/product.js"
