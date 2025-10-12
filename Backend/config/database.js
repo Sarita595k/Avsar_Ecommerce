@@ -11,5 +11,6 @@ const connectToDb = async () => {
 
 }
 
+// export default 
 export default connectToDb;
 // end of code 
