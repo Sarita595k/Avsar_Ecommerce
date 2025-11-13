@@ -10,7 +10,7 @@ export const newProduct = async (req, res, next) => {
     })
 }
 
-// get all products /api/products
+// get all products /api/products/
 export const getProducts = async (req, res, next) => {
     const products = await Product.find();
     res.status(200).json({
@@ -69,7 +69,7 @@ export const updateProduct = async (req, res, next) => {
     }
 }
 
-// delete product api/admin/product/:id
+// delete product api/product/admin/:id
 
 export const deleteProduct = async (req, res, next) => {
     try {

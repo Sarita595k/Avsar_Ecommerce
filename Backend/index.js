@@ -16,10 +16,11 @@ app.use(express.json())
 import router from "./routes/product.js"
 
 // route for products 
-app.use("/api/", router)
+app.use("/api/products", router)
 
-// middleware to use handle errors 
+// middleware to handle errors 
 app.use(handleError)
+
 
 // listening to port
 app.listen(process.env.PORT, () => {
