@@ -31,7 +31,7 @@ export const handleError = (err, req, res, next) => {
         }
         res.status(error.statusCode).json({
             success: false,
-            message: err.message || "internal server error"
+            message: error.message || "internal server error"
         })
     }
 }
