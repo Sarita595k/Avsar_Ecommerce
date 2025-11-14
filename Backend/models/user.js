@@ -6,15 +6,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter your name"],
         maxLength: [30, "Your name cann't exceed 30 characters"]
-    }, email: {
+    },
+    email: {
         type: String,
         required: [true, "Please enter your email"],
         unique: true,
         validate: [validator.isEmail, "Please enter a valid email address"]
-    }, password: {
+    },
+    password: {
         type: String,
         required: [true, "Please enter your password"],
-        maxLength: [6, "Your password should be more than 6 characters"],
+        minLength: [6, "Your password should be more than 6 characters"],
         select: false
     },
     avatar: {
@@ -26,15 +28,17 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }, role: {
+    },
+    role: {
         type: String,
         default: "user"
-    }, createdAt: {
-        type: Date.now,
+    },
+    createdAt: {
+        type: Date,
         default: Date.now
     },
     resetPasswordToken: String,
     resetPasswordExpire: Date
 })
 
-export const UserModel = mongoose.model("User", userSchema)
+export const User = mongoose.model("User", userSchema)

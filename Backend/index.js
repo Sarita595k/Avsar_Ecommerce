@@ -14,10 +14,14 @@ import connectToDb from "./config/database.js"
 app.use(express.json())
 //import all routes 
 import router from "./routes/product.js"
+import routes from "./routes/user.js"
 
 // route for products 
 app.use("/api/products", router)
 
+
+// route for users 
+app.use("/api/user", routes)
 // middleware to handle errors 
 app.use(handleError)
 
