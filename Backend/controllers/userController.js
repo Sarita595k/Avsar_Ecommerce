@@ -22,5 +22,3 @@ export const registerUser = async (req, res, next) => {
         return next(new ErrorHandler(error.message, 400));
     }
 }
-
-// end of code
