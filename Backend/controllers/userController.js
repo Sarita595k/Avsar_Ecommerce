@@ -67,6 +67,43 @@ export const loginUser = async (req, res, next) => {
     sendToken(user, 200, res)
 }
 
+// forgot password /api/user/password/forgot
+export const forgotPassword = async (req, res, next) => {
+    const user = await User.findOne({ email: req.body.email })
+
+    if (!user) {
+        return next(new ErrorHandler("User not found fot this email", 404))
+    }
+
+    // get reste token
+    const resetToken = user.getResetPasswordToken()
+
+    await user.save({ validateBeforeSave: false })
+
+    // create reset passsword url 
+    const resetUrl = `${req.protocol}://${req.get('host')}/api/password/reset/${resetToken}`
+    const message = `Your password reset is as follow:\n\n ${resetUrl}\n\n if you have not requested this , then ignore it.`
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: `Avsar Ecommerce password recovery`,
+            message
+        })
+
+        res.status(200).json({
+            success: true,
+            message: `email sent to ${user.email}`
+        })
+    } catch (error) {
+        user.resetPasswordToken = undefined
+        user.resetPasswordExpire = undefined
+
+        await user.save({ validateBeforeSave: false })
+
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
+
 // logout user /api/user/logout
 export const logoutUser = async (req, res, next) => {
     res.cookie("token", null, { expires: new Date(Date.now()), httpOnly: true })

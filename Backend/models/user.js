@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator"
-
+import crypto from "crypto"
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -40,5 +40,20 @@ const userSchema = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpire: Date
 })
+
+
+// generate password reset token 
+userSchema.methods.getResetPasswordToken = function () {
+    // generate a token
+    const resetToken = crypto.randomBytes(20).toString("hex")
+
+    // hash and set to reset password
+    this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest("hex")
+
+    // set the token expire time 
+    this.resetPasswordExpire = Date.now() + 30 * 60 * 1000
+
+    return resetToken
+}
 
 export const User = mongoose.model("User", userSchema)
