@@ -22,6 +22,7 @@ app.use("/api/products", router)
 
 // route for users 
 app.use("/api/user", routes)
+
 // middleware to handle errors 
 app.use(handleError)
 
