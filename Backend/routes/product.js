@@ -1,9 +1,11 @@
 import express from "express";
 const router = express.Router();
 import { deleteProduct, getProducts, getSingleProduct, newProduct, updateProduct } from "../controllers/productController.js";
+import { isAuthenticated } from "../middlewares/auth.js";
+
 
 // router for getting all products 
-router.get('/', getProducts)
+router.get('/', isAuthenticated, getProducts)
 
 // router for getting single product
 router.get('/:id', getSingleProduct)

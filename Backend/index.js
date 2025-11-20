@@ -1,6 +1,8 @@
 import express from "express"
 import path from "path"
 import dotenv from 'dotenv'
+import cookieParser from "cookie-parser"
+
 dotenv.config({ path: path.resolve('config/config.env') })
 const app = express()
 
@@ -12,6 +14,10 @@ import connectToDb from "./config/database.js"
 
 // for json parsing 
 app.use(express.json())
+
+// for parsing the cookies 
+app.use(cookieParser())
+
 //import all routes 
 import router from "./routes/product.js"
 import routes from "./routes/user.js"

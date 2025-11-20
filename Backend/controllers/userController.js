@@ -2,6 +2,7 @@ import { User } from "../models/user.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
+import { sendToken } from "../utils/jwtTokens.js";
 
 // register user /api/user/register
 export const registerUser = async (req, res, next) => {
@@ -19,13 +20,13 @@ export const registerUser = async (req, res, next) => {
         })
 
         // return json web token 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRESIN })
-
-        res.status(201).json({
-            success: true,
-            user,
-            token
-        })
+        // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRESIN })
+        sendToken(user, 200, res)
+        // res.status(201).json({
+        //     success: true,
+        //     user,
+        //     token
+        // })
     }
     catch (error) {
         return next(new ErrorHandler(error.message, 400));
@@ -56,10 +57,12 @@ export const loginUser = async (req, res, next) => {
         return next(new ErrorHandler("Invalid password", 401))
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRESIN })
-    res.status(200).json({
-        success: true,
-        user,
-        token
-    })
+    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRESIN })
+    // res.status(200).json({
+    //     success: true,
+    //     user,
+    //     token
+    // })
+
+    sendToken(user, 200, res)
 }
