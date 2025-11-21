@@ -3,6 +3,7 @@ import { ErrorHandler } from "../utils/errorHandler.js";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 import { sendToken } from "../utils/jwtTokens.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 // register user /api/user/register
 export const registerUser = async (req, res, next) => {
@@ -75,7 +76,7 @@ export const forgotPassword = async (req, res, next) => {
         return next(new ErrorHandler("User not found fot this email", 404))
     }
 
-    // get reste token
+    // get reset token
     const resetToken = user.getResetPasswordToken()
 
     await user.save({ validateBeforeSave: false })

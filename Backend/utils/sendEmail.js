@@ -8,5 +8,14 @@ export const sendEmail = async options => {
             user: process.env.NODEMAILER_USER,
             pass: process.env.NODEMAILER_PASSWORD
         }
+
     });
+    const message = {
+        from: `${process.env.NODEMAILER_FROM} <${process.NODEMAILER_FROM_EMAIL}`,
+        to: options.email,
+        subject: options.subject,
+        text: options.message
+    }
+
+    await transport.sendMail(message)
 }
