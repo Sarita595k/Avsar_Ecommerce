@@ -23,8 +23,24 @@ export const handleError = (err, req, res, next) => {
             const message = `Resource not found.Invalid. ${err.path}`
             error = new ErrorHandler(message, 400)
         }
+        // handling the mongoose dublicate error 
+        if (err.code === 11000) {
+            const message = `Dublicate ${Object.keys(err.keyValue)} entered`
+            error = new ErrorHandler(message, 400)
+        }
 
-        // handling mongoose validation error
+
+        // handling the wrong jwt error
+        if (err.name === "JsonWebTokenError") {
+            const message = `JSON web token is Invalid.Try again.`
+            error = new ErrorHandler(message, 400)
+        }
+
+        if (err.name === "TokenExpireError") {
+            const message = `JSON web token is Expire.Try again.`
+            error = new ErrorHandler(message, 400)
+        }
+        //         // handling mongoose validation error
         if (err.name === "ValidationError") {
             const message = Object.values(err.errors).map(value => value.message)
             error = new ErrorHandler(message, 400)

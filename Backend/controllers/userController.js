@@ -1,6 +1,7 @@
 import { User } from "../models/user.js";
 import { ErrorHandler } from "../utils/errorHandler.js";
 import bcrypt from 'bcrypt'
+import crypto from "crypto"
 import jwt from "jsonwebtoken"
 import { sendToken } from "../utils/jwtTokens.js";
 import { sendEmail } from "../utils/sendEmail.js";
@@ -82,7 +83,7 @@ export const forgotPassword = async (req, res, next) => {
     await user.save({ validateBeforeSave: false })
 
     // create reset passsword url 
-    const resetUrl = `${req.protocol}://${req.get('host')}/api/password/reset/${resetToken}`
+    const resetUrl = `${req.protocol}://${req.get('host')}/api/user/password/reset/${resetToken}`
     const message = `Your password reset is as follow:\n\n ${resetUrl}\n\n if you have not requested this , then ignore it.`
     try {
         await sendEmail({
@@ -103,6 +104,38 @@ export const forgotPassword = async (req, res, next) => {
 
         return next(new ErrorHandler(error.message, 500))
     }
+}
+
+
+// reset password api/password/reset/:token
+export const resetPassword = async (req, res, next) => {
+    // hash url token 
+    const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
+
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    })
+
+    if (!user) {
+        return next(new ErrorHandler("Password reset token is invalid or has been expired", 400))
+    }
+
+    if (req.body.password !== req.body.confirmPassword) {
+        return next(new ErrorHandler("password does not match", 400))
+    }
+
+    // setup new password
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    user.password = hashedPassword
+    user.resetPasswordToken = undefined
+    user.resetPasswordExpire = undefined
+
+    await user.save()
+
+    sendToken(user, 200, res)
 }
 
 // logout user /api/user/logout
