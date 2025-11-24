@@ -69,6 +69,23 @@ export const loginUser = async (req, res, next) => {
     sendToken(user, 200, res)
 }
 
+
+// update passoword  /api/user/update/password
+export const updatePassword = async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('+password')
+
+    // check previous user password 
+    const isMatched = bcrypt.compare(req.body.oldPassword, req.body.password)
+    if (!isMatched) {
+        return next(new ErrorHandler("old password is incoorect", 400))
+    }
+
+
+    user.password = await bcrypt.hash(req.body.password, 10)
+    await user.save()
+
+    sendToken(user, 200, res)
+}
 // forgot password /api/user/password/forgot
 export const forgotPassword = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email })
@@ -138,11 +155,106 @@ export const resetPassword = async (req, res, next) => {
     sendToken(user, 200, res)
 }
 
+// get currently logged in user details /api/user/me
+
+export const getUserProfile = async (req, res, next) => {
+    const user = await User.findById(req.user.id)
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
+
+
+// update user profile /api/user/me/update/profile
+export const updateProfile = async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email
+    }
+
+    // update avatar
+
+    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
+
 // logout user /api/user/logout
 export const logoutUser = async (req, res, next) => {
     res.cookie("token", null, { expires: new Date(Date.now()), httpOnly: true })
     res.status(200).json({
         success: true,
         message: "logged out successfully"
+    })
+}
+
+// admin routes 
+
+// get all users api/admin/users
+
+export const getAllUsers = async (req, res, next) => {
+    const users = await User.find()
+
+    res.status(200).json({
+        status: true,
+        users
+    })
+}
+
+// get users details /api/admin/user/:id
+
+export const getUserDetails = async (req, res, next) => {
+    const user = await User.findById(req.params.id)
+
+    if (!user) {
+        return next(new ErrorHandler("user does not found by id", 401))
+    }
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
+
+// update user /api/user/admin/user/update/:id
+export const adminUpdateProfile = async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        email: req.body.email,
+        role: req.body.role
+    }
+
+    // update avatar /api/user/admin/user/update/:id
+
+    const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
+
+// delete the user /api/user/admin/delete/:id
+export const deleteUser = async (req, res, next) => {
+    const user = await User.findById(req.params.id)
+
+    if (!user) {
+        return next(new ErrorHandler("user does not found by id", 401))
+    }
+    // remove avatar ?
+    await user.deleteOne()
+    res.status(200).json({
+        success: true
     })
 }
