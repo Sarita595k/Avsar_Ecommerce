@@ -1,39 +1,22 @@
-import "./Header.css";
-
-export const Header = () => {
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap"
+const Header = () => {
     return (
-        <header className="header">
-            {/* Navbar */}
-            <nav className="navbar">
-                <h2 className="logo">Avsar Ecom</h2>
-
-                <ul className="nav-links">
-                    <li>Home</li>
-                    <li>Shop</li>
-                    <li>Products</li>
-                    <li>Contact</li>
-                    <li>Login</li>
-                    <li>Register</li>
-                </ul>
-
-                <button className="shop-btn">Shop Now</button>
-            </nav>
-
-            {/* Hero Section */}
-            <div className="hero">
-                <div className="hero-text">
-                    <h1>
-                        Discover the Best <span>Products</span> for You
-                    </h1>
-                    <p>
-                        Shop premium quality items at affordable prices.
-                        Fast delivery & easy returns.
-                    </p>
-
-                    <button className="explore-btn">Explore Products</button>
-                </div>
-
-            </div>
-        </header>
+        <Navbar expand="lg" className="bg-body-tertiary">
+            <Container>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Brand href="/">Avsar E-Commerce</Navbar.Brand>
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link href="#link">Shop</Nav.Link>
+                        <Nav.Link href="#link">Products</Nav.Link>
+                        <Nav.Link href="#link">Login</Nav.Link>
+                        <Nav.Link href="#link">Register</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
-};
+}
+
+export default Header;
