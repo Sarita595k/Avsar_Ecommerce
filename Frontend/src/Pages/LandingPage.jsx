@@ -1,10 +1,14 @@
-import React from 'react'
-import Header from '../components/Header/Header'
-import { Footer } from '../components/Footer/Footer'
+import NavbarComp from "../components/Navbar/NavbarComp"
+import Footer from '../components/Footer/Footer'
+import ProductCard from '../components/ProductCard'
+import MetaData from '../components/MetaData/MetaData'
 
 const LandingPage = () => {
     return (
-        <div><Header />
+        <div>
+            <MetaData title={"Home"} />
+            <NavbarComp />
+            <ProductCard />
             <Footer />
         </div>
     )

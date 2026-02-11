@@ -1,5 +1,5 @@
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap"
-const Header = () => {
+import { Navbar, Container, Nav } from "react-bootstrap"
+const NavbarComp = () => {
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -7,9 +7,10 @@ const Header = () => {
                 <Navbar.Brand href="/">Avsar E-Commerce</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="#link">Shop</Nav.Link>
                         <Nav.Link href="#link">Products</Nav.Link>
+                        <Nav.Link href="#link">Cart</Nav.Link>
                         <Nav.Link href="#link">Login</Nav.Link>
                         <Nav.Link href="#link">Register</Nav.Link>
                     </Nav>
@@ -19,4 +20,4 @@ const Header = () => {
     );
 }
 
-export default Header;
+export default NavbarComp;

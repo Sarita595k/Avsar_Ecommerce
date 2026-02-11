@@ -1,11 +1,12 @@
-import { Footer } from "./components/Footer/Footer"
-import Header from "./components/Header/Header"
+import { Route, Routes } from "react-router-dom"
 import LandingPage from "./Pages/LandingPage"
 
 const App = () => {
   return (
     <>
-      <LandingPage />
+      <Routes>
+        <Route path="/" element={<LandingPage />}></Route>
+      </Routes>
     </>
   )
 }
