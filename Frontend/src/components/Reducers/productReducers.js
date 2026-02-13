@@ -1,1 +1,3 @@
-export const productReducer = (state, action)
+export const productReducer = (state, action) => {
+
+}
