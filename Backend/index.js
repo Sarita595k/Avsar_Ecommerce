@@ -30,7 +30,6 @@ app.use("/api/products", router)
 // route for users 
 app.use("/api/user", routes)
 
-
 // route for order 
 app.use("/api/order", route)
 // middleware to handle errors 

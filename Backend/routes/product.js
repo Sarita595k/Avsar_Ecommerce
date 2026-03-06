@@ -5,7 +5,7 @@ import { authorizedRole, isAuthenticated } from "../middlewares/auth.js";
 
 
 // router for getting all products 
-router.get('/', isAuthenticated, getProducts)
+router.get('/', getProducts)
 
 // router for getting single product
 router.get('/:id', getSingleProduct)
