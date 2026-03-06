@@ -18,7 +18,7 @@ export const newProduct = async (req, res, next) => {
 // get all products /api/products?keywords="apple"
 export const getProducts = async (req, res, next) => {
 
-    const resPerPage = 5;
+    const resPerPage = 6;
 
     // used in frontend to check how many products are there
     const productCount = await Product.countDocuments()
@@ -33,7 +33,8 @@ export const getProducts = async (req, res, next) => {
     res.status(200).json({
         success: true,
         count: products.length,
-        productCount,
+        productsCount: productCount,
+        resPerPage,
         products
     })
 }
