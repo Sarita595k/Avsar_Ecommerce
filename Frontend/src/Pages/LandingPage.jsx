@@ -7,6 +7,7 @@ const LandingPage = () => {
     return (
         <div>
             <MetaData title={"Home"} />
+            {/* adding navbar */}
             <NavbarComp />
             <ProductCard />
             <Footer />
