@@ -7,7 +7,7 @@ const routes = express.Router()
 routes.post("/register", registerUser)
 
 // route for login user
-routes.get("/login", loginUser)
+routes.post("/login", loginUser)
 
 // for forgot password 
 routes.post("/password/forgot", forgotPassword)
