@@ -72,20 +72,20 @@ export const loginUser = async (req, res, next) => {
 
 // update passoword  /api/user/update/password
 export const updatePassword = async (req, res, next) => {
-    const user = await User.findById(req.user.id).select('+password')
 
-    // check previous user password 
-    const isMatched = await bcrypt.compare(req.body.oldPassword, req.body.password)
+    const user = await User.findById(req.user.id).select('+password');
+
+    const isMatched = await bcrypt.compare(req.body.oldPassword, user.password);
     if (!isMatched) {
-        return next(new ErrorHandler("old password is incoorect", 400))
+        return next(new ErrorHandler("Old password is incorrect", 400));
     }
 
+    // Set the hash manually
+    user.password = await bcrypt.hash(req.body.password, 10);
+    await user.save();
 
-    user.password = await bcrypt.hash(req.body.password, 10)
-    await user.save()
-
-    sendToken(user, 200, res)
-}
+    sendToken(user, 200, res);
+};
 // forgot password /api/user/password/forgot
 export const forgotPassword = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email })
